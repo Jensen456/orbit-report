@@ -8,12 +8,14 @@ import { Satellite } from "./satellite";
 })
 export class AppComponent {
   title = "orbit-report";
+  headers: ["Name", "Type", "Operational", "Orbit Type", "Launch Date"];
   sourceList: Satellite[];
   displayList: Satellite[];
 
   constructor() {
     this.sourceList = [];
     this.displayList = [];
+
     let satellitesUrl =
       "https://handlers.education.launchcode.org/static/satellites.json";
 
@@ -23,19 +25,19 @@ export class AppComponent {
           function (data) {
             let fetchedSatellites = data.satellites;
             // TODO: loop over satellites
-            for (let i = 0; i < this.sourceList.length; i++);
-            // TODO: create a Satellite object
-            let satelliteObj = {
-              new: Satellite(
-                fetchedSatellites[i].name,
-                fetchedSatellites[i].type,
-                fetchedSatellites[i].operational,
-                fetchedSatellites[i].orbitType,
-                fetchedSatellites[i].launchDate
-              ),
-            };
-            // TODO: add the new Satellite object to sourceList
-            this.sourceList.push(Satellite);
+            for (let i of fetchedSatellites) {
+              // TODO: create a Satellite object
+              let sourcedData = new Satellite(
+                i.name,
+                i.type,
+                i.operational,
+                i.orbitType,
+                i.launchDate
+              );
+
+              // TODO: add the new Satellite object to sourceList
+              this.sourceList.push(sourcedData);
+            }
             // make a copy of the sourceList to be shown to the user
             this.displayList = this.sourceList.slice(0);
           }.bind(this)
